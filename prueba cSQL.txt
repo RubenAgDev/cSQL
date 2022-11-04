@@ -1,0 +1,36 @@
+CREAR BD MiBaseDeDatos;
+
+CREAR TABLA Tabla1
+(
+id_prod NUM CLAVE PRIMARIA,
+nombre TEXTO NO NULO,
+precio NUM,
+revision FECHA
+);
+
+INSERTAR EN Tabla1 (id_prod, nombre, precio, revision) VALORES (1, 'Teclado', 150, '15/02/07');
+
+REPETIR(INSERTAR EN Tabla1)
+{
+(id_prod, nombre, precio, revision) VALORES (2, 'Mouse', 100, '16/02/07');
+(id_prod, nombre, precio, revision) VALORES (3, 'Monitor', 3200, '17/02/07');
+(id_prod, nombre, precio, revision) VALORES (4, 'HDD', 1800, '18/02/07');
+}
+
+SELECCIONAR SUM(precio), PROM(precio) COMO promedio_Precio DE Tabla1 DONDE nombre PARECE 'Teclado';
+
+ACTUALIZAR Tabla1 COLOCAR precio = precio * PROM(precio), nombre = 'Monitor LCD' DONDE id_prod = 3;
+
+SELECCIONAR (precio * 2 + 4)/3 DE Tabla1;
+
+SELECCIONAR (precio * 2 + 4)/3 DE Tabla1 DONDE id_prod = [SELECCIONAR SUM(precio) DE Tabla1];
+
+REPETIR(INSERTAR EN Tabla1)
+{
+(nombre, id_prod) VALORES ('valor', 2);
+(nombre) VALORES ('www');
+}
+
+LIMPIAR Tabla1;
+
+BORRAR BD MiBaseDeDatos;
